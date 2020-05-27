@@ -9,12 +9,12 @@
     <script>
         async function ready() {
             const os = require('os')
-            console.log(os)
             const pcname = os.hostname()
             const username = os.userInfo().username
             const bit = os.arch()
             const cpu = os.cpus()[0].model
-            const wifi = os.networkInterfaces()['Wi-Fi'][1]
+            const networkInterfaces = os.networkInterfaces()
+            let netinfo = ""
             const loop = setInterval(() => {
                 let day = 0
                 let hours = 0
@@ -58,8 +58,13 @@
                     if (s.length == 1) {
                         s = "0" + s
                     }
+                    netinfo = ""
                     let uptime = `${d}:${h}:${m}:${s}`
                     document.getElementById('uptime').innerText = `${uptime}`
+                    for (const nets in networkInterfaces) {
+                        netinfo += `<h3>${nets}</h3><hr><h5>주소 : ${networkInterfaces[nets][1].address}<br>넷마스트 : ${networkInterfaces[nets][1].netmask}<br>맥주소 : ${networkInterfaces[nets][1].mac}<br></h5>`
+                    }
+                    document.getElementById('netinfo').innerHTML = `${netinfo}`
                 }
                 get()
             }, 1);
@@ -67,11 +72,6 @@
             document.getElementById('pcname').innerText = `${pcname}`
             document.getElementById('username').innerText = `${username}`
             document.getElementById('bit').innerText = `${bit}`
-            if(wifi){
-                document.getElementById('wifi').innerText = `주소 : ${wifi.address}\n넷마스트 : ${wifi.netmask}\n맥주소 : ${wifi.mac}`
-            }else{
-                document.getElementById('wifi').innerText = `없음`
-            }
         }
     </script>
     <section class="pcname">
@@ -122,13 +122,13 @@
         </div>
     </section>
     <hr>
-    <section class="wifi">
+    <section class="netinfo">
         <div>
             <h1>
-                Wi-Fi
+                Net Info
             </h1>
             <hr>
-            <h5 id="wifi">
+            <h5 id="netinfo">
 
             </h5>
         </div>
