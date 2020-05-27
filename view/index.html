@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Info</title>
+</head>
+
+<body onload='ready()'>
+    <script>
+        async function ready() {
+            const os = require('os')
+            console.log(os)
+            const pcname = os.hostname()
+            const username = os.userInfo().username
+            const bit = os.arch()
+            const cpu = os.cpus()[0].model
+            const wifi = os.networkInterfaces()['Wi-Fi'][1]
+            const loop = setInterval(() => {
+                let day = 0
+                let hours = 0
+                let min = 0
+                let sec = os.uptime()
+                async function get() {
+                    function getday() {
+                        while (sec >= 86400) {
+                            day++
+                            sec = sec - 86400
+                        }
+                    }
+                    function gethours() {
+                        while (sec >= 3600) {
+                            hours++
+                            sec = sec - 3600
+                        }
+                    }
+                    function getmin() {
+                        while (sec >= 60) {
+                            min++
+                            sec = sec - 60
+                        }
+                    }
+                    await getday()
+                    await gethours()
+                    await getmin()
+                    let d = day.toString()
+                    let h = hours.toString()
+                    let m = min.toString()
+                    let s = sec.toString()
+                    if (d.length == 1) {
+                        d = "0" + d
+                    }
+                    if (h.length == 1) {
+                        h = "0" + h
+                    }
+                    if (m.length == 1) {
+                        m = "0" + m
+                    }
+                    if (s.length == 1) {
+                        s = "0" + s
+                    }
+                    let uptime = `${d}:${h}:${m}:${s}`
+                    document.getElementById('uptime').innerText = `${uptime}`
+                }
+                get()
+            }, 1);
+            document.getElementById('cpu').innerText = `${cpu}`
+            document.getElementById('pcname').innerText = `${pcname}`
+            document.getElementById('username').innerText = `${username}`
+            document.getElementById('bit').innerText = `${bit}`
+            if(wifi){
+                document.getElementById('wifi').innerText = `주소 : ${wifi.address}\n넷마스트 : ${wifi.netmask}\n맥주소 : ${wifi.mac}`
+            }else{
+                document.getElementById('wifi').innerText = `없음`
+            }
+        }
+    </script>
+    <section class="pcname">
+        <div>
+            <h1>
+                PC Name
+                <hr>
+                <h5 id="pcname">
+
+                </h5>
+            </h1>
+        </div>
+    </section>
+    <hr>
+    <section class='username'>
+        <div>
+            <h1>
+                Username
+            </h1>
+            <hr>
+            <h5 id="username">
+
+            </h5>
+        </div>
+    </section>
+    <hr>
+    <section class="cpu">
+        <div>
+            <h1>
+                CPU
+                <hr>
+                <h5 id="cpu">
+
+                </h5>
+            </h1>
+        </div>
+    </section>
+    <hr>
+    <section class="bit">
+        <div>
+            <h1>
+                Bit
+            </h1>
+            <hr>
+            <h5 id="bit">
+
+            </h5>
+        </div>
+    </section>
+    <hr>
+    <section class="wifi">
+        <div>
+            <h1>
+                Wi-Fi
+            </h1>
+            <hr>
+            <h5 id="wifi">
+
+            </h5>
+        </div>
+    </section>
+    <hr>
+    <section class="uptime">
+        <div>
+            <h1>
+                Uptime
+            </h1>
+            <hr>
+            <h5 id="uptime">
+
+            </h5>
+        </div>
+    </section>
+</body>
+
+</html>

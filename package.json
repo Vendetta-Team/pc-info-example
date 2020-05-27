@@ -1,0 +1,14 @@
+{
+  "name": "Pc-Info",
+  "version": "1.0.0",
+  "description": "Pc Info",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron index.js"
+  },
+  "author": "천마",
+  "license": "GPL 3.0",
+  "dependencies": {
+    "electron": "^8.2.1"
+  }
+}
